@@ -1,0 +1,39 @@
+<?php
+define('SITE_ROOT', dirname(dirname(__FILE__)));
+
+require '../include/utils.php';
+require '../include/auth.php';
+
+$email = $password = '';
+
+if (($email = getRequest('--email')) && ($password = getRequest('--password'))) {
+    $email = sqlite_escape_string($email);
+    $password = sqlite_escape_string($password);
+
+    $hasher = new PasswordHash(HASH_ITERATION, FALSE);
+    $hash = $hasher->HashPassword($password);
+
+    $timestamp = date('Y-m-d H:i:s');
+    $sql = "insert into user ('email', 'password_digest', 'created', 'role_id') values ('{$email}', '{$hash}', '{$timestamp}', 1)";
+    $sql_error = '';
+
+    if (!open_db($sql_error)) {
+        echo "Error opening db: {$sql_error}\n";
+        echo "sql: {$sql}\n";
+        return;
+    } else if (!sqlite_exec($db, $sql)) {
+        $sql_error = sqlite_error_string(sqlite_last_error($db)); 
+        echo "Error executing: {$sql_error}\n";
+        echo "sql: {$sql}\n";
+        return;
+    } else {
+        echo "user added: {$sql}\n";
+    }
+
+} else {
+
+    print 'Usage: $create-admin --email="email-address" --password="your-password"' . $argc;
+}
+
+?>
+

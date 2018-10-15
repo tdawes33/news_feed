@@ -1,0 +1,19 @@
+<div class="main">
+    <div class="user_info">%USER% | <a href="%SIGN_OUT_URL%" title="サインアウト">サインアウト </a></div>
+    <h2 class="heading">管理者用　新着情報表示</h2>
+    <form id="viewer_form" method="post" action="/admin/">
+        <input type="hidden" name="module" id="module" value="news" />
+        <div class="add"><button type="submit" name="add" id="add" value="add">新着情報の新規作成</button></div>
+        <div class="viewer">
+                <table>
+                    <colgroup><col class="date_col" /><col class="title_col" /><col class="edit_col" /><col class="delete_col" /></colgroup>
+                    <thead>
+                        <tr><th>日付</th><th>タイトル</th><th>編集</th><th>削除</th></tr>
+                    </thead>
+                    <tbody>
+                        %NEWS_LIST%
+                    </tbody>
+                </table>
+        </div>
+    </form>
+</div>

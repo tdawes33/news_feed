@@ -1,0 +1,22 @@
+
+    <div class="main">
+        <div class="user_info">%USER% | <a href="%SIGN_OUT_URL%" title="サインアウト">サインアウト </a></div>
+        <h2 class="heading">投稿を削除</h2>
+        <form id="delete_form" action="index.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="module" id="module" value="news" />
+            <input id="cmd" name="cmd" type="hidden" value="confirm_delete" />
+            <input id="id" name="confirm_delete" type="hidden" value="%NEWS_ID%" />
+            <div class="viewport">
+                <div class="section">
+                    <div class="delete_title">'%TITLE%'</div>
+                    <div class="warning">を削除してもよろしいですか?</div>
+                </div>
+                <div class="submit">
+                    <button type="submit" name="submit" id="submit" value="submit">更新</button>
+                </div>
+                <div class="link"><br /><a href="javascript:history.back(-1)">戻る</a></div>
+            </div>
+            <div class="warning">%WARNING%</div>
+            <div class="message">%MESSAGE%</div>
+        </form>
+    </div>

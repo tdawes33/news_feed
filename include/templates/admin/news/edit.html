@@ -1,0 +1,52 @@
+
+    <div class="edit_main">
+        <div class="user_info">%USER% | <a href="%SIGN_OUT_URL%" title="サインアウト">サインアウト </a></div>
+        <h2 class="heading">新着情報を確認</h2>
+        <form id="edit_form" action="index.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="module" id="module" value="news" />
+            <input id="cmd" name="cmd" type="hidden" value="%CMD%" />
+            <input id="id" name="id" type="hidden" value="%NEWS_ID%" />
+            <div class="viewport">
+                <div class="date section">
+                    <label for="date">日付:</label>
+                    <input id="date" name="date" value="%DATE%" maxlength="10" />
+                </div>
+                <div class="title section">
+                    <label for="title">タイトル:</label>
+                    <input type="text" id="title" name="title" value="%TITLE%" maxlength="100" />
+                    <div class="info">（全角 100 文字まで）</div>
+                </div>
+                <div class="content_edit section">
+                    <label for="content">本文:</label>
+                    <textarea id="content" name="content" rows="8" cols="10">%CONTENT%</textarea>
+                    <div class="info">（全角 50000 文字まで）</div>
+                </div>
+                <div class="image section">
+                    <label for="image">画像:</label>
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+                    <input type="file" class="file" name="image" id="image" size="28" value="" />
+                    <div class="info">（jpg, gif, png 形式のみ、画像の推奨サイズは 200 ピクセル x 150 ピクセルです。それより大きい場合は自動でリサイズされます。）</div>
+                    <div class="news_image" style="%DISPLAY%">
+                        <img src="%IMAGE%" align="left" alt="" class="photo"
+                                    style="width: %WIDTH%px; height: %HEIGHT%px;" />
+                        <div class="delete_image">
+                            <input type="checkbox" id="delete_image" name="delete_image" />
+                            <label for="delete_image">現在の画像を削除する</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit section">
+                    <button type="submit" name="submit" id="submit" value="submit">更新</button>
+                </div>
+                <!--
+                <div class="link"><br /><a href="javascript:history.back(-1)">戻る</a></div>
+                -->
+                <h3 class="home"><a href="/admin/">システム管理者用インデックスページ</a></h3>
+            </div>
+            <div class="warning">%WARNING%</div>
+            <div class="message">%MESSAGE%</div>
+        </form>
+    </div>
+                    <!-- year month day( 年 月 日)
+                    ※ は必須項目です。- required
+                    -->

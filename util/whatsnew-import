@@ -1,0 +1,57 @@
+#!/bin/env bash
+
+#NOTE: This script assumes jpg's
+#NOTE: This script will fail on non-standard ini files (like some what's new dat files)
+#invalid files are reported and can be imported manually
+
+INI_SECTION=NEWS
+#[NEWS]
+#PHOTO (JPEG/GIF), CONTENT, TITLE, DATE (20080509)
+
+if [ $# -ne 3 ]; then
+    echo "Usage: `basename $0` path locale db"
+    exit $E_OPTERROR
+fi
+
+path=$1
+locale=$2
+db=$3
+
+#TODO add quotes around ini entries
+
+if [ -d "$path" ]; then
+    count=0
+    failed=0
+    for i in `ls ${1}*.dat`; do
+        tempfile="$i.utf-8"
+        iconv -f euc-jp -t utf-8 $i > $tempfile
+        eval `sed -e 's/[[:space:]]*\=[[:space:]]*/=/g' \
+            -e 's/;.*$//' -e 's/[[:space:]]*$//' -e 's/^[[:space:]]*//' -e "s/^\(.*\)=\([^\"']*\)$/\1=\"\2\"/" \
+            < $tempfile | sed -n -e "/^\[$INI_SECTION\]/,/^\s*\[/{/^[^;].*\=.*/p;}"`
+        if [ $? -ne 0 ]; then
+            echo "error processing file $tempfile"
+            : $[ failed++ ]
+            continue
+        fi
+        #TODO check the image format
+        if [ "$PHOTO" ]; then
+            photo=\"$PHOTO.jpg\"
+        else
+            photo=NULL
+        fi
+
+        sql="insert into news (date) values ('${DATE:0:4}-${DATE:4:2}-${DATE:6:2}');select last_insert_rowid()"
+        id=`sqlite3 $db "$sql"`
+        sql="insert into news_l10n (news_id, locale, title, content, image) values ($id, '$locale', '$TITLE', '$CONTENT', ${photo})" 
+        sqlite3 $db "$sql"
+        rm -f $tempfile
+        : $[ count++ ]
+    done
+
+    echo "$count news items imported"
+    if [ $failed -gt 0 ]; then
+        echo "$failed failed imports: see $path"
+    fi
+else
+    echo "$1 is not a directory"
+fi

@@ -1,0 +1,20 @@
+
+    <div class="auth_main">
+        <h2 class="heading">管理者 : サインイン</h2>
+        <form id="signin_form" action="index.php" method="post">
+            <input id="cmd" name="cmd" type="hidden" value="signin" />
+            <div class="signin_entry">
+                <label for="username">E メール:</label>
+                <input id="username" name="username" type="text" maxlength="320" tabindex="5" />
+            </div>
+            <div class="signin_entry">
+                <label for="password">パスワード:</label>
+                <input id="password" name="password" type="password" maxlength="16" tabindex="10" />
+            </div>
+            <div class="submit">
+                <button type="submit" name="submit" id="submit" value="credentials">サインイン</button>
+            </div>
+            <div class="warning">%WARNING%</div>
+        </form>
+    </div> 
+
